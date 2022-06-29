@@ -6,17 +6,21 @@
     </div>
     <br>
     <div class="container">
+        <div v-if="checkdashboard()" class="wrapper"><NavBar/></div>
         <router-view/>
     </div>
 </div>    
 </template>
 <script>
+import NavBar from './NavBar.vue'
 import axios from 'axios'
 export default {
+    components: { NavBar },
     data(){
         return{
             email: '',
             name: '',
+            isdashboard: true,
         }
     },
     methods:{
@@ -28,6 +32,11 @@ export default {
             axios.get('http://localhost:8000/api/logout', { headers }).then(()=>{
                 this.$router.push({ name: "Login" })
             })
+        },
+
+        checkdashboard(){
+            if (this.$route.path == '/dashboard') return true
+            else return false
         }
     },
 
